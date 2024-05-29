@@ -146,6 +146,11 @@ pre {
                 {% csrf_token %}
                 <div class="card rounded-lg">
                     <div class="card-body">
+                        {% if form.image.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.image.errors }}
+                                        </div>
+                        {% endif %}
                         <div class="form-group" id="product-link-form-group">
                             <label for="productLink">Product Link</label>
                             <input type="url" class="form-control" id="productLink" name="product_link" placeholder="Enter product link">
@@ -159,11 +164,7 @@ pre {
                         <div class="col-md-6">
                             {% bootstrap_field form.image %}
                         </div>
-                                    {% if form.image.errors %}
-                                        <div class="alert alert-danger mt-2">
-                                            {{ form.image.errors }}
-                                        </div>
-                                    {% endif %}
+
                         <div class="col-md-6">
                             {% bootstrap_field form.title %}
                         </div>

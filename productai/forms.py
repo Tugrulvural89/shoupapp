@@ -1,4 +1,4 @@
-from PIL.Image import Image
+from PIL import Image
 from django import forms
 from .models import Contact
 from .models import UploadedImage
@@ -13,7 +13,7 @@ class ProductForm(forms.Form):
         ('de', 'German'),
         ('tr', 'Turkish'),
     ]
-    image = forms.ImageField(required=False, label="Upload Image", help_text="Maks Size 50MB - Min pixel 1000 x 1000")
+    image = forms.ImageField(required=False, label="Upload Image", help_text="Maks Size 50MB - Min pixel 500 x 500")
     product_link = forms.URLField(required=False, label="Product Link on Marketplace",
                                   help_text="Product link or image is required")
     title = forms.CharField(max_length=200, required=False, label="Title", help_text="Optional Attribute")
@@ -39,8 +39,8 @@ class ProductForm(forms.Form):
             except Exception as e:
                 raise forms.ValidationError("Invalid image file.")
 
-            if img.width < 1000 or img.height < 1000:
-                raise forms.ValidationError("The image dimensions must be at least 1000x1000 pixels.")
+            if img.width < 500 or img.height < 500:
+                raise forms.ValidationError("The image dimensions must be at least 500x500 pixels.")
 
         return image
 
