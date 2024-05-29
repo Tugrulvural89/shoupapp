@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+
+ {% block title %} <title>Contact Us - Shoupapp LProductWriter</title> {% endblock title %}
+   {% block meta_description %}
+    <meta name="description" content="Get in touch with the Shoupapp LProductWriter team for any inquiries or custom integration requests. We're here to help you enhance your e-commerce site with AI-powered product descriptions." />
+    <!-- Other head elements -->
+   {% endblock meta_description %}
+
+ {% block meta_title %}  <meta name="title" content="Contact Us - Shoupapp LProductWriter"> {% endblock meta_title %}
+
+
+
+{% block content %}
+
+    <div class="contact-header p-5 text-center items-center mb-5 text-white mb-5" style="background-image: url('{% static "image/arkaplancont.png" %}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+<div class="container">
+
+           <div style="height: 100px;"></div>
+
+
+
+
+            <!-- templates/contact.html -->
+        <p class="col col-12 col-md-6 fs-4 text-capitalize text-muted text-start text-white" style="color: #ffffff!important;">
+        We are here to help!
+
+        </p>
+    <p class="col col-12 col-md-6 fs-4 text-capitalize text-muted text-start " style="color: #ffffff!important;">
+        Please let us know if you have any questions or suggestions and we will get back to you.
+
+        </p>
+
+
+    </div>
+</div>
+<div class="container mb-5">
+<form method="post" action="">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type='submit' content='Send' size='lg' %}
+</form>
+
+</div>
+
+{% endblock content %}
