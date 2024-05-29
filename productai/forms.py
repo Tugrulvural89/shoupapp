@@ -33,9 +33,14 @@ class ProductForm(forms.Form):
             if image.size > 50 * 1024 * 1024:  # 50 MB
                 raise forms.ValidationError("The image file size must be under 50 MB.")
 
-            img = Image.open(image)
+            try:
+                img = Image.open(image)
+                img.verify()  # Verify that it is an image
+            except Exception as e:
+                raise forms.ValidationError("Invalid image file.")
+
             if img.width < 1000 or img.height < 1000:
-                raise forms.ValidationError("The image resolution must be at least 1000x1000 pixels.")
+                raise forms.ValidationError("The image dimensions must be at least 1000x1000 pixels.")
 
         return image
 

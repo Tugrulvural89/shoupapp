@@ -159,6 +159,11 @@ pre {
                         <div class="col-md-6">
                             {% bootstrap_field form.image %}
                         </div>
+                                    {% if form.image.errors %}
+                                        <div class="alert alert-danger mt-2">
+                                            {{ form.image.errors }}
+                                        </div>
+                                    {% endif %}
                         <div class="col-md-6">
                             {% bootstrap_field form.title %}
                         </div>
