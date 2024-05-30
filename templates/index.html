@@ -7,38 +7,52 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
 
  <style>
-  /* HTML: <div class="loader"></div> */
-     .loader-message {
-      margin-top: 80px;
-      font-size: 1.2em;
-      color: #000;
-        margin-left: auto;
-        margin-right: auto;
-         text-align: center;
-    }
-.loader {
-  width: 50px;
-  padding: 8px;
-    top:20%;
-  aspect-ratio: 1;
-  border-radius: 50%;
+   .loader-message {
+    margin-top: 80px;
+    font-size: 1.2em;
+    color: #000;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .loader {
+    width: 50px;
+    padding: 8px;
+    top: 20%;
+    aspect-ratio: 1;
+    border-radius: 50%;
     margin-top: 50px;
-        margin-left: auto;
-        margin-right: auto;
-  background: #25b09b;
-  --_m:
-    conic-gradient(#0000 10%,#000),
-    linear-gradient(#000 0 0) content-box;
-  -webkit-mask: var(--_m);
+    margin-left: auto;
+    margin-right: auto;
+    background: #25b09b;
+    --_m:
+      conic-gradient(#0000 10%, #000),
+      linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
           mask: var(--_m);
-  -webkit-mask-composite: source-out;
+    -webkit-mask-composite: source-out;
           mask-composite: subtract;
-  animation: l3 1s infinite linear;
-}
-@keyframes l3 {to{transform: rotate(1turn)}}
- .tab-container-01 {
-     padding: 20px;
- }
+    animation: l3 1s infinite linear;
+  }
+  @keyframes l3 {
+    to { transform: rotate(1turn); }
+  }
+  .loader-container {
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on top */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    top: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.8); /* White background with opacity */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
 .code-container {
   background-color: #f8f9fa;
   padding: 30px;
@@ -55,21 +69,6 @@
 pre {
   margin: 0;
 }
-
-    .loader-container {
-      display: none;
-      position: fixed; /* Stay in place */
-      z-index: 999; /* Sit on top */
-      width: 100%; /* Full width */
-      height: 100%; /* Full height */
-      top: 0;
-      left: 0;
-        margin-left: auto;
-        margin-right: auto;
-      background-color: rgba(255, 255, 255, 0.8); /* White background with opacity */
-      justify-content: center;
-      align-items: center;
-    }
 
   .card-shadow {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -95,290 +94,299 @@ pre {
 
 {% block content %}
  <section class="custom-section text-center">
-        <div class="container">
-            <h1>E-Commerce Content Solutions</h1>
-            <p class="lead">Write Description, Title, Meta SEO Field From Image</p>
-        {% if content %}
-            <section class="text-center">
-    <div class="container">
+  <div class="container">
+    <h1>E-Commerce Content Solutions</h1>
+    <p class="lead">Write Description, Title, Meta SEO Field From Image</p>
+    {% if content %}
+    <section class="text-center">
+      <div class="container">
         <div class="card card-shadow">
-            <div class="card-body">
-                <!-- Bootstrap Nav Tabs -->
-                <ul class="nav nav-tabs" id="contentTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="content-tab" data-bs-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="true">Content</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="safe-content-tab" data-bs-toggle="tab" href="#safe-content" role="tab" aria-controls="safe-content" aria-selected="false">HTML Content</a>
-                    </li>
+          <div class="card-body">
+            <!-- Bootstrap Nav Tabs -->
+            <ul class="nav nav-tabs" id="contentTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="content-tab" data-bs-toggle="tab" href="#content" role="tab" aria-controls="content" aria-selected="true">Content</a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a class="nav-link" id="safe-content-tab" data-bs-toggle="tab" href="#safe-content" role="tab" aria-controls="safe-content" aria-selected="false">HTML Content</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="contentTabsContent">
+              <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="content-tab">
+                {% if content %}
+                <div class="tab-container-01">
+                  {{ content|safe }}
+                </div>
+                {% endif %}
+              </div>
+              <div class="tab-pane fade" id="safe-content" role="tabpanel" aria-labelledby="safe-content-tab">
+                {% if content %}
+                <div class="code-container position-relative">
+                  <pre><code id="codeBlock">{{ content }}</code></pre>
+                  <button class="btn btn-outline-secondary copy-btn position-absolute top-0 end-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy to clipboard">
+                    <i class="bi bi-clipboard"></i>
+                  </button>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    {% if content %}
+    <a href="/">try again?</a>
+    {% else %}
+    <form method="post" enctype="multipart/form-data" id="myForm">
+      {% csrf_token %}
+      <div class="card rounded-lg">
+        <div class="card-body">
+          {% if form.image.errors %}
+          <div class="alert alert-danger mt-2">
+            {{ form.image.errors }}
+          </div>
+          {% endif %}
+          <div class="form-group" id="product-link-form-group">
+            <label for="productLink">Product Link</label>
+            <input type="url" class="form-control" id="productLink" name="product_link" placeholder="Enter product link">
+          </div>
+          <a style="margin:10px;" type="button" href="#" onclick="toggleAdditionalElements()">
+            <p style="text-decoration: none; text-underline: none; color:#000; font-size:12px;" id="labelText">No products listed yet</p>
+          </a>
+          <div class="form-group">
+            <div id="additional-elements" style="display: none;">
+              <div class="row mt-4">
+                <div class="col-md-6">
+                  {% bootstrap_field form.image %}
+                </div>
+                <div class="col-md-6">
+                  {% bootstrap_field form.title %}
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-6">
+                  {% bootstrap_field form.product_size %}
+                </div>
+                <div class="col-md-6">
+                  {% bootstrap_field form.product_color %}
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-6">
+                  {% bootstrap_field form.category %}
+                </div>
+                <div class="col-md-6">
+                  {% bootstrap_field form.language %}
+                </div>
+              </div>
+              <div class="row mt-4">
+                <div class="col-md-12">
+                  {% bootstrap_field form.description %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success mt-4">Create</button>
+        </div>
+        <div>
+          <ul class="list-group help-text">
+            <li class="list-group-item border-0 f-12 text-left"><strong>Product Link:</strong> If you have a product link, please paste it in this field. If there is no product link, you will need to provide an image of the product.</li>
+            <li class="list-group-item border-0 f-12"><strong>Product Image:</strong> If there is no product link, please upload a clear and descriptive image of the product. This image will be used to generate the product description.</li>
+            <li class="list-group-item border-0 f-12"><strong>Recognizing the Product from the Image:</strong> You can generate a product description by uploading only the product image. A high-resolution and clear image is required for this. If you encounter any issues, please contact tvural@lookupprice.com.</li>
+            <li class="list-group-item border-0 f-12"><strong>Product Title:</strong> If there is no product link, please enter the title of the product. This title will help in generating the product description.</li>
+            <li class="list-group-item border-0 f-12"><strong>Product Description:</strong> Once the image and title information are provided, the system will automatically generate a product description. Please review the generated description and make any necessary edits.</li>
+          </ul>
+        </div>
+      </div>
+    </form>
+    {% endif %}
+    {% if generated_images %}
+    <hr>
+    <h2>Generated Images</h2>
+    <div class="row">
+      {% for image in generated_images %}
+      <div class="col-md-4">
+        <img src="{{ image }}" alt="Generated Image" class="img-fluid">
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="usage-section mt-5">
+  <div class="container">
+    <h2>How to Use the Product</h2>
+    <p>
+      Shoupapp LProductWriter automatically generates product descriptions and SEO texts using product links or images. Here is a step-by-step guide on how to use it:
+    </p>
+    <ol>
+      <li>
+        <strong>Provide a Product Link:</strong> If you have an online listing for your product, paste the product link in the "Product Link" field.
+      </li>
+      <li>
+        <strong>Upload a Product Image:</strong> If you don't have an online listing, upload a clear and descriptive image of your product. This image will be used to generate the product description.
+      </li>
+      <li>
+        <strong>Fill in Additional Information:</strong> If needed, fill in the additional fields such as product title, size, color, category, and language.
+      </li>
+      <li>
+        <strong>Submit the Form:</strong> Click on the "Create" button to submit the form. The AI will analyze the provided link or image and generate a detailed product description.
+      </li>
+      <li>
+        <strong>Review and Edit:</strong> Review the generated product description and make any necessary edits. The description will be SEO-friendly and optimized for better search engine visibility.
+      </li>
+    </ol>
+    <p>
+      For any issues or custom integrations, please contact us at <a href="mailto:tugrulvural@shoupapp.com">tugrulvural@shoupapp.com</a>.
+    </p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="{% static 'image/mainblogimage.webp' %}" alt="Create a Dub" class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <h2>AI-Powered Product and SEO Description Generator</h2>
+        <div class="content-text">
+          <div class="container my-5">
+            <div class="row">
+              <div class="col-md-12">
+                <p class="lead text-center">Automatically generate product descriptions from images and live listing links</p>
+                <p>
+                  Discover our <strong>AI-Powered Product and SEO Description Generator</strong> to enhance your e-commerce site with high-quality, SEO-friendly product descriptions. This web application uses your product images and live listing links to generate descriptions in multiple languages.
+                </p>
+                <p>
+                  With our user-friendly interface, simply upload your products or share live listing links, and let our powerful AI system do the rest. Automatically generated product descriptions and <strong>SEO descriptions</strong> help increase your e-commerce site's visibility and provide better service to your customers.
+                </p>
+                <p>
+                  Features:
+                </p>
+                <ul>
+                  <li><strong>Automatic Product Descriptions:</strong> Extracts product information from images and links to create detailed descriptions.</li>
+                  <li><strong>SEO-Friendly Content:</strong> Provides optimized content for higher search engine rankings.</li>
+                  <li><strong>Multi-Language Support:</strong> Reach a global customer base with descriptions in multiple languages.</li>
+                  <li><strong>User-Friendly Interface:</strong> Save time and streamline your processes with easy-to-use features.</li>
                 </ul>
-                <div class="tab-content" id="contentTabsContent">
-                    <div class="tab-pane fade show active" id="content" role="tabpanel" aria-labelledby="content-tab">
-                        {% if content %}
-                           <div class="tab-container-01">
-                            {{ content|safe }}
-                            </div>
-
-                        {% endif %}
-                    </div>
-                    <div class="tab-pane fade" id="safe-content" role="tabpanel" aria-labelledby="safe-content-tab">
-
-                        {% if content %}
-                                <div class="code-container position-relative">
-                                    <pre><code id="codeBlock">{{ content }}</code></pre>
-                                    <button class="btn btn-outline-secondary copy-btn position-absolute top-0 end-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy to clipboard">
-                                      <i class="bi bi-clipboard"></i>
-                                    </button>
-                                  </div>
-
-                        {% endif %}
-                    </div>
-                </div>
+                <h2>Benefits of Using Our Generator</h2>
+                <ul>
+                  <li><strong>Increased Revenue:</strong> Enhance product visibility and attract more customers with optimized descriptions.</li>
+                  <li><strong>Higher Traffic:</strong> SEO-friendly content helps drive more organic traffic to your site.</li>
+                  <li><strong>Improved Efficiency:</strong> Save time on content creation and focus on other important aspects of your business.</li>
+                </ul>
+                <p>
+                  Start using the <strong>AI-Powered Product and SEO Description Generator</strong> today and take your e-commerce business to the next level!
+                </p>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
-        {% endif %}
-        {% if content %}
-            <a href="/">try again?</a>
-        {% else %}
-            <form method="post" enctype="multipart/form-data" id="myForm">
-                {% csrf_token %}
-                <div class="card rounded-lg">
-                    <div class="card-body">
-                        {% if form.image.errors %}
-                                        <div class="alert alert-danger mt-2">
-                                            {{ form.image.errors }}
-                                        </div>
-                        {% endif %}
-                        <div class="form-group" id="product-link-form-group">
-                            <label for="productLink">Product Link</label>
-                            <input type="url" class="form-control" id="productLink" name="product_link" placeholder="Enter product link">
-                        </div>
-                        <a style="margin:10px;" type="button" href="#" onclick="toggleAdditionalElements()">
-                            <p style="text-decoration: none; text-underline: none; color:#000; font-size:12px;" id="labelText">No products listed yet</p>
-                        </a>
-                        <div class="form-group">
-                             <div id="additional-elements" style="display: none;">
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            {% bootstrap_field form.image %}
-                        </div>
-
-                        <div class="col-md-6">
-                            {% bootstrap_field form.title %}
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            {% bootstrap_field form.product_size %}
-                        </div>
-                        <div class="col-md-6">
-                            {% bootstrap_field form.product_color %}
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-6">
-                            {% bootstrap_field form.category %}
-                        </div>
-                        <div class="col-md-6">
-                            {% bootstrap_field form.language %}
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-12">
-                            {% bootstrap_field form.description %}
-                        </div>
-                    </div>
-                </div>
-
-                        </div>
-                        <button type="submit" class="btn btn-success mt-4">Create</button>
-                    </div>
-                    <div>
-                        <ul class="list-group help-text">
-                            <li class="list-group-item border-0 f-12 text-left"><strong>Product Link:</strong> If you have a product link, please paste it in this field. If there is no product link, you will need to provide an image of the product.</li>
-                            <li class="list-group-item border-0 f-12"><strong>Product Image:</strong> If there is no product link, please upload a clear and descriptive image of the product. This image will be used to generate the product description.</li>
-                            <li class="list-group-item border-0 f-12"><strong>Recognizing the Product from the Image:</strong> You can generate a product description by uploading only the product image. A high-resolution and clear image is required for this. If you encounter any issues, please contact tvural@lookupprice.com.</li>
-                            <li class="list-group-item border-0 f-12"><strong>Product Title:</strong> If there is no product link, please enter the title of the product. This title will help in generating the product description.</li>
-                            <li class="list-group-item border-0 f-12"><strong>Product Description:</strong> Once the image and title information are provided, the system will automatically generate a product description. Please review the generated description and make any necessary edits.</li>
-                        </ul>
-                    </div>
-                </div>
-
-
-            </form>
-        {% endif %}
-            {% if generated_images %}
-            <hr>
-            <h2>Generated Images</h2>
-            <div class="row">
-                {% for image in generated_images %}
-                <div class="col-md-4">
-                    <img src="{{ image }}" alt="Generated Image" class="img-fluid">
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
-    </section>
-
-    <section class="usage-section mt-5">
-    <div class="container">
-        <h2>How to Use the Product</h2>
-        <p>
-            Shoupapp LProductWriter automatically generates product descriptions and SEO texts using product links or images. Here is a step-by-step guide on how to use it:
-        </p>
-        <ol>
-            <li>
-                <strong>Provide a Product Link:</strong> If you have an online listing for your product, paste the product link in the "Product Link" field.
-            </li>
-            <li>
-                <strong>Upload a Product Image:</strong> If you don't have an online listing, upload a clear and descriptive image of your product. This image will be used to generate the product description.
-            </li>
-            <li>
-                <strong>Fill in Additional Information:</strong> If needed, fill in the additional fields such as product title, size, color, category, and language.
-            </li>
-            <li>
-                <strong>Submit the Form:</strong> Click on the "Create" button to submit the form. The AI will analyze the provided link or image and generate a detailed product description.
-            </li>
-            <li>
-                <strong>Review and Edit:</strong> Review the generated product description and make any necessary edits. The description will be SEO-friendly and optimized for better search engine visibility.
-            </li>
-        </ol>
-        <p>
-            For any issues or custom integrations, please contact us at <a href="mailto:tugrulvural@shoupapp.com">tugrulvural@shoupapp.com</a>.
-        </p>
-    </div>
-</section>
-
-  <section class="content-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="{% static 'image/mainblogimage.webp' %}" alt="Create a Dub" class="img-fluid">
-                </div>
-                <div class="col-md-6">
-                    <h2>AI-Powered Product and SEO Description Generator</h2>
-                    <div class="content-text">
-                        <div class="container my-5">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p class="lead text-center">Automatically generate product descriptions from images and live listing links</p>
-                                <p>
-                                    Discover our <strong>AI-Powered Product and SEO Description Generator</strong> to enhance your e-commerce site with high-quality, SEO-friendly product descriptions. This web application uses your product images and live listing links to generate descriptions in multiple languages.
-                                </p>
-                                <p>
-                                    With our user-friendly interface, simply upload your products or share live listing links, and let our powerful AI system do the rest. Automatically generated product descriptions and <strong>SEO descriptions</strong> help increase your e-commerce site's visibility and provide better service to your customers.
-                                </p>
-                                <p>
-                                    Features:
-                                </p>
-                                <ul>
-                                    <li><strong>Automatic Product Descriptions:</strong> Extracts product information from images and links to create detailed descriptions.</li>
-                                    <li><strong>SEO-Friendly Content:</strong> Provides optimized content for higher search engine rankings.</li>
-                                    <li><strong>Multi-Language Support:</strong> Reach a global customer base with descriptions in multiple languages.</li>
-                                    <li><strong>User-Friendly Interface:</strong> Save time and streamline your processes with easy-to-use features.</li>
-                                </ul>
-                                <h2>Benefits of Using Our Generator</h2>
-                                <ul>
-                                    <li><strong>Increased Revenue:</strong> Enhance product visibility and attract more customers with optimized descriptions.</li>
-                                    <li><strong>Higher Traffic:</strong> SEO-friendly content helps drive more organic traffic to your site.</li>
-                                    <li><strong>Improved Efficiency:</strong> Save time on content creation and focus on other important aspects of your business.</li>
-                                    </ul>
-                                    <p>
-                                        Start using the <strong>AI-Powered Product and SEO Description Generator</strong> today and take your e-commerce business to the next level!
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
 <section class="faq-section">
-    <div class="container">
-        <h2>Frequently Asked Questions</h2>
-        <div class="accordion" id="faqAccordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        What is Shoupapp LProductWriter?
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Shoupapp LProductWriter is an AI-powered tool that automatically generates product and SEO descriptions from images and live listing links. It helps e-commerce businesses enhance their product listings and improve their search engine rankings.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        How much does Shoupapp LProductWriter cost?
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Shoupapp LProductWriter is completely free to use. Enjoy all the features without any cost.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        How does Shoupapp LProductWriter work?
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Shoupapp LProductWriter analyzes the product images and live listing links you provide, and uses advanced AI algorithms to generate high-quality, SEO-friendly product descriptions. These descriptions help improve your product visibility and search engine rankings.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingFour">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        Is my data collected or shared?
-                    </button>
-                </h2>
-                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        No, we do not collect, store, or share your data. Your privacy is our top priority.
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingFive">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                        Can I get more functional usage and custom integrations?
-                    </button>
-                </h2>
-                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Yes, for more functional usage and custom integrations, please contact us at <a href="mailto:tugrulvural@shoupapp.com">tugrulvural@shoupapp.com</a>.
-                    </div>
-                </div>
-            </div>
-            <!-- Add more items as needed -->
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
+    <div class="accordion" id="faqAccordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            What is Shoupapp LProductWriter?
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Shoupapp LProductWriter is an AI-powered tool that automatically generates product and SEO descriptions from images and live listing links. It helps e-commerce businesses enhance their product listings and improve their search engine rankings.
+          </div>
         </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            How much does Shoupapp LProductWriter cost?
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Shoupapp LProductWriter is completely free to use. Enjoy all the features without any cost.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            How does Shoupapp LProductWriter work?
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Shoupapp LProductWriter analyzes the product images and live listing links you provide, and uses advanced AI algorithms to generate high-quality, SEO-friendly product descriptions. These descriptions help improve your product visibility and search engine rankings.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            Is my data collected or shared?
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            No, we do not collect, store, or share your data. Your privacy is our top priority.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFive">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            Can I get more functional usage and custom integrations?
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, for more functional usage and custom integrations, please contact us at <a href="mailto:tugrulvural@shoupapp.com">tugrulvural@shoupapp.com</a>.
+          </div>
+        </div>
+      </div>
+      <!-- Add more items as needed -->
     </div>
+  </div>
 </section>
+
 <div class="loader-container">
-    <div class="loader"></div>
-<div class="loader-message">Be patient, your content will be ready soon.</div>
+  <div class="loader"></div>
+  <div class="loader-message" id="loaderMessage">Be patient, your content will be ready soon.</div>
 </div>
 
 {% endblock content %}
-
 {% block javascript %}
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            // Show the loader
+            const loaderContainer = document.getElementsByClassName('loader-container')[0];
+            const loaderMessage = document.getElementById('loaderMessage');
+            loaderContainer.style.display = 'flex'; // Show the loader
 
+            const messages = [
+                "Optimizing information...",
+                "Fetching content...",
+                "Analyzing product...",
+                "Generating new content..."
+            ];
 
-       <script>
+            let messageIndex = 0;
+            setInterval(() => {
+                loaderMessage.textContent = messages[messageIndex];
+                messageIndex = (messageIndex + 1) % messages.length;
+            }, 3000); // Change message every 3 seconds
+        });
+
         function toggleAdditionalElements() {
             var additionalElements = document.getElementById('additional-elements');
             var linkInputElement = document.getElementById('product-link-form-group');
@@ -386,42 +394,34 @@ pre {
             if (additionalElements.style.display === 'none') {
                 additionalElements.style.display = 'block';
                 linkInputElement.style.display = 'none';
-                labelElementText.textContent    = 'I have online product on marketplaces';
+                labelElementText.textContent = 'I have online product on marketplaces';
                 additionalElements.scrollIntoView({ behavior: 'smooth' });
             } else {
                 additionalElements.style.display = 'none';
                 linkInputElement.style.display = 'block';
-                labelElementText.textContent    = 'I don\'t have online listing yet on marketplaces';
+                labelElementText.textContent = 'I don\'t have online listing yet on marketplaces';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const copyButton = document.querySelector('.copy-btn');
+            const codeBlock = document.querySelector('#codeBlock');
+
+            copyButton.addEventListener('click', () => {
+                navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                    copyButton.innerHTML = '<i class="bi bi-clipboard-check"></i>';
+                    setTimeout(() => {
+                        copyButton.innerHTML = '<i class="bi bi-clipboard"></i>';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Initialize Bootstrap tooltip
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        });
     </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-  const copyButton = document.querySelector('.copy-btn');
-  const codeBlock = document.querySelector('#codeBlock');
-
-  copyButton.addEventListener('click', () => {
-    navigator.clipboard.writeText(codeBlock.textContent).then(() => {
-      copyButton.innerHTML = '<i class="bi bi-clipboard-check"></i>';
-      setTimeout(() => {
-        copyButton.innerHTML = '<i class="bi bi-clipboard"></i>';
-      }, 2000);
-    }).catch(err => {
-      console.error('Failed to copy text: ', err);
-    });
-  });
-
-  // Initialize Bootstrap tooltip
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-});
-
-
-    </script>
-
-    <script>
-  document.getElementById('myForm').addEventListener('submit', function() {
-    document.getElementsByClassName('loader-container')[0].style.display = 'block'; // Show the loader
-  });
-</script>
 {% endblock javascript %}
+

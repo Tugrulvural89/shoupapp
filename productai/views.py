@@ -312,11 +312,14 @@ def index(request):
                 uploaded_image = UploadedImage(image=image_file)
                 uploaded_image.save()
                 # Resmin URL'sini elde et
+
                 image_url = request.build_absolute_uri(uploaded_image.image.url)
+
                 response_text = run_openai_model(image_file_base=image_url, title=title,
                                                  description=description,
                                                  product_size=product_size,
                                                  product_color=product_color, language=language, category=category)
+
             # if url input exist
             elif 'https://' in inputs and image_file is None:
                 # content parser
