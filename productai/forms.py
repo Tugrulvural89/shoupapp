@@ -13,18 +13,19 @@ pillow_heif.register_heif_opener()
 
 class HEICFileField(FileField):
     def validate(self, value):
-        ext = os.path.splitext(value.name)[1].lower()
-        allowed_extensions = [
-            '.bmp', '.dib', '.gif', '.jfif', '.jpe', '.jpg', '.jpeg', '.pbm', '.pgm', '.ppm', '.pnm', '.pfm', '.png',
-            '.apng', '.blp', '.bufr', '.cur', '.pcx', '.dcx', '.dds', '.ps', '.eps', '.fit', '.fits', '.fli', '.flc',
-            '.ftc', '.ftu', '.gbr', '.grib', '.h5', '.hdf', '.jp2', '.j2k', '.jpc', '.jpf', '.jpx', '.j2c', '.icns',
-            '.ico', '.im', '.iim', '.mpg', '.mpeg', '.tif', '.tiff', '.mpo', '.msp', '.palm', '.pcd', '.pdf', '.pxr',
-            '.psd', '.qoi', '.bw', '.rgb', '.rgba', '.sgi', '.ras', '.tga', '.icb', '.vda', '.vst', '.webp', '.wmf',
-            '.emf', '.xbm', '.xpm', '.heic'
-        ]
-        if ext not in allowed_extensions:
-            raise ValidationError(f"File extension '{ext}' is not allowed. Allowed extensions are: {', '.join(allowed_extensions)}.")
-        super().validate(value)
+        if value is not None:
+            ext = os.path.splitext(value.name)[1].lower()
+            allowed_extensions = [
+                '.bmp', '.dib', '.gif', '.jfif', '.jpe', '.jpg', '.jpeg', '.pbm', '.pgm', '.ppm', '.pnm', '.pfm', '.png',
+                '.apng', '.blp', '.bufr', '.cur', '.pcx', '.dcx', '.dds', '.ps', '.eps', '.fit', '.fits', '.fli', '.flc',
+                '.ftc', '.ftu', '.gbr', '.grib', '.h5', '.hdf', '.jp2', '.j2k', '.jpc', '.jpf', '.jpx', '.j2c', '.icns',
+                '.ico', '.im', '.iim', '.mpg', '.mpeg', '.tif', '.tiff', '.mpo', '.msp', '.palm', '.pcd', '.pdf', '.pxr',
+                '.psd', '.qoi', '.bw', '.rgb', '.rgba', '.sgi', '.ras', '.tga', '.icb', '.vda', '.vst', '.webp', '.wmf',
+                '.emf', '.xbm', '.xpm', '.heic'
+            ]
+            if ext not in allowed_extensions:
+                raise ValidationError(f"File extension '{ext}' is not allowed. Allowed extensions are: {', '.join(allowed_extensions)}.")
+            super().validate(value)
 
 class ProductForm(forms.Form):
     LANGUAGE_CHOICES = [
