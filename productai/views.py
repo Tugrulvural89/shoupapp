@@ -31,7 +31,7 @@ def run_openai_model(content=None, image_file_base=None, product_size=None, prod
     client = OpenAI(api_key=api_Key)
     messages_list = []
     result_text = 'Not Available Now'
-    if content != 'Not Available' and content is not None:
+    if content is not None:
         content_list = [
             {
                 "role": "system",
@@ -274,7 +274,6 @@ def run_openai_model(content=None, image_file_base=None, product_size=None, prod
 
     else:
         result_text = 'Not Available Now'
-    print(messages_list)
     if len(messages_list) > 0:
         response = client.chat.completions.create(
             model="gpt-4o",
@@ -296,9 +295,6 @@ def index(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
-            print("form is ")
-            # image = form.cleaned_data.get('image')
-            # product_link = form.cleaned_data.get('product_link')
             title = form.cleaned_data.get('title')
             product_size = form.cleaned_data.get('product_size')
             product_color = form.cleaned_data.get('product_color')
@@ -326,8 +322,10 @@ def index(request):
                 try:
                     content = scrape_product_info(inputs)
                     # live link if available
-                    response_text = run_openai_model(content)
-                # if raise error bs4
+                    if content is not None:
+                        response_text = run_openai_model(content)
+                    else:
+                        response_text = "we can't get info from your link please try uploading a new image"
                 except:
                     response_text = "we can't get info from your link please try uploading a new image"
             else:
