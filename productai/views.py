@@ -329,9 +329,9 @@ def index(request):
                     response_text = run_openai_model(content)
                 # if raise error bs4
                 except:
-                    response_text = "Not Available"
+                    response_text = "we can't get info from your link please try uploading a new image"
             else:
-                response_text = "Not Available"
+                response_text = "There is not any https link"
 
             return render(request, 'index.html', {'form': form, 'content': response_text})
     else:

@@ -9,7 +9,12 @@ def scrape_product_info(url):
         print("URL must start with https://")
         return
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+        'Connection': 'keep-alive',
+    }
 
     response = requests.get(url, headers=headers)
 
@@ -19,6 +24,8 @@ def scrape_product_info(url):
         time.sleep(random.uniform(2, 10))  # Rastgele bekleme süresi
         response = requests.get(url, headers=headers)
         retries -= 1
+
+
 
     if response.status_code != 200:
         print(f"Failed to retrieve the page. Status code: {response.status_code}")
